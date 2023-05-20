@@ -1,5 +1,6 @@
 package com.mjc.school.config;
 
+import com.mjc.school.controller.config.ControllerConfiguration;
 import com.mjc.school.repository.config.RepoConfig;
 import com.mjc.school.service.config.ServiceConfig;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,7 +9,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 @Import(value = {RepoConfig.class,
-        ServiceConfig.class})
+        ServiceConfig.class,
+        ControllerConfiguration.class})
 @Configuration
 @ComponentScan(basePackages = "com.mjc.school")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
