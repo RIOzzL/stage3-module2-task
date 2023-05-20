@@ -1,7 +1,7 @@
 package com.mjc.school.controller.aop;
 
-import com.mjc.school.service.dto.NewsDto;
-import com.mjc.school.service.validation.validator.NewsDtoValidator;
+import com.mjc.school.controller.dto.NewsRequestDto;
+import com.mjc.school.controller.validation.validator.NewsDtoValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -21,7 +21,7 @@ public class NewsControllerValidationAspect {
 
     }
 
-    @Pointcut("isNewsController() && @annotation(com.mjc.school.service.validation.restriction.UpdateValid)")
+    @Pointcut("isNewsController() && @annotation(com.mjc.school.controller.validation.restriction.UpdateValid)")
     public void hasUpdateValidAnnotation() {
 
     }
@@ -29,10 +29,10 @@ public class NewsControllerValidationAspect {
     @Before("hasUpdateValidAnnotation()")
     public void updateValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        newsDtoValidator.updateValidation((NewsDto) args[0]);
+        newsDtoValidator.updateValidation((NewsRequestDto) args[0]);
     }
 
-    @Pointcut("isNewsController() && @annotation(com.mjc.school.service.validation.restriction.CreateValid)")
+    @Pointcut("isNewsController() && @annotation(com.mjc.school.controller.validation.restriction.CreateValid)")
     public void hasCreateValidAnnotation() {
 
     }
@@ -40,10 +40,10 @@ public class NewsControllerValidationAspect {
     @Before("hasCreateValidAnnotation()")
     public void createValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        newsDtoValidator.createValidation((NewsDto) args[0]);
+        newsDtoValidator.createValidation((NewsRequestDto) args[0]);
     }
 
-    @Pointcut("isNewsController() && @args(com.mjc.school.service.validation.restriction.IsEntityExist,..)")
+    @Pointcut("isNewsController() && @args(com.mjc.school.controller.validation.restriction.IsEntityExist,..)")
     public void hasIsEntityExistAnnotation() {
 
     }

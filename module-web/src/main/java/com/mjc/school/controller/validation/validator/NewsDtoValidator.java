@@ -1,10 +1,10 @@
-package com.mjc.school.service.validation.validator;
+package com.mjc.school.controller.validation.validator;
 
-import com.mjc.school.repository.impl.NewsRepository;
-import com.mjc.school.repository.model.entity.News;
+import com.mjc.school.controller.dto.NewsRequestDto;
+import com.mjc.school.controller.validation.restriction.Size;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.ValidatorException;
-import com.mjc.school.service.validation.restriction.Size;
+import com.mjc.school.service.impl.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,32 +12,30 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.mjc.school.service.exception.ServiceError.*;
 
 @Component
-public class NewsDtoValidator implements Validator<NewsDto> {
+public class NewsDtoValidator implements Validator<NewsRequestDto> {
 
-    private final NewsRepository newsRepository;
+    private final NewsService newsService;
     private final AuthorDtoValidator authorDtoValidator;
 
     @Autowired
-    public NewsDtoValidator(NewsRepository newsRepository, AuthorDtoValidator authorDtoValidator) {
-        this.newsRepository = newsRepository;
+    public NewsDtoValidator(NewsService newsService, AuthorDtoValidator authorDtoValidator) {
+        this.newsService = newsService;
         this.authorDtoValidator = authorDtoValidator;
     }
 
 
     @Override
-    public boolean isValid(NewsDto newsDto) {
+    public boolean isValid(NewsRequestDto newsDto) {
         return false;
     }
 
     @SneakyThrows
     @Override
-    public boolean updateValidation(NewsDto newsDto) {
+    public boolean updateValidation(NewsRequestDto newsDto) {
         isExistValidation(newsDto.getId());
         StringBuilder errorMessage = new StringBuilder();
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
@@ -45,7 +43,7 @@ public class NewsDtoValidator implements Validator<NewsDto> {
         if (!fieldsWithSizeAnnotation.isEmpty()) {
             errorMessage.append(sizeAnnotationValidation(newsDto));
         }
-        if (!newsRepository.readAll().stream().map(News::getId).toList().contains(newsDto.getAuthorId())) {
+        if (!newsService.readAll().stream().map(NewsDto::getAuthorId).toList().contains(newsDto.getAuthorId())) {
             errorMessage.append(String.format(AUTHOR_ID_DOES_NOT_EXIST.getMessage(), newsDto.getAuthorId())).append("\n");
         }
         if (!errorMessage.isEmpty()) {
@@ -56,7 +54,7 @@ public class NewsDtoValidator implements Validator<NewsDto> {
 
     @SneakyThrows
     @Override
-    public boolean createValidation(NewsDto newsDto) {
+    public boolean createValidation(NewsRequestDto newsDto) {
         StringBuilder errorMessage = new StringBuilder();
 
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
@@ -66,7 +64,7 @@ public class NewsDtoValidator implements Validator<NewsDto> {
             errorMessage.append(sizeAnnotationValidation(newsDto));
         }
         if (newsDto.getAuthorId() != null) {
-            if (!newsRepository.readAll().stream().map(News::getId).toList().contains(newsDto.getAuthorId())) {
+            if (!newsService.readAll().stream().map(NewsDto::getAuthorId).toList().contains(newsDto.getAuthorId())) {
                 errorMessage.append(String.format(AUTHOR_ID_DOES_NOT_EXIST.getMessage(), newsDto.getAuthorId())).append("\n");
             }
         }
@@ -77,7 +75,7 @@ public class NewsDtoValidator implements Validator<NewsDto> {
     }
 
     @Override
-    public String sizeAnnotationValidation(NewsDto newsDto) throws IllegalAccessException {
+    public String sizeAnnotationValidation(NewsRequestDto newsDto) throws IllegalAccessException {
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
         List<Field> fieldsWithSizeAnnotation = Arrays.stream(declaredFieldsOfNewsDto).filter(field -> field.isAnnotationPresent(Size.class)).toList();
         StringBuilder errorMessage = new StringBuilder();
@@ -100,8 +98,8 @@ public class NewsDtoValidator implements Validator<NewsDto> {
 
     @Override
     public boolean isExistValidation(Long id) {
-        Optional<News> news = newsRepository.readById(id);
-        if (news.isPresent()) {
+        boolean entityExist = newsService.isEntityExist(id);
+        if (entityExist) {
             return true;
         } else {
             throw new ValidatorException(String.format(NEWS_ID_DOES_NOT_EXIST.getMessage(), id));

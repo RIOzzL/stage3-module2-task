@@ -1,5 +1,6 @@
-package com.mjc.school.service.dto;
+package com.mjc.school.controller.dto;
 
+import com.mjc.school.controller.validation.restriction.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,16 +12,10 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class NewsDto {
+public class AuthorRequestDto {
     private Long id;
-
-    private String title;
-
-    private String content;
-
+    @Size(min = 3, max = 15)
+    private String name;
     private LocalDateTime createDate;
-
-    private LocalDateTime lastUpdatedDate;
-
-    private Long authorId;
+    private LocalDateTime lastUpdateDate;
 }

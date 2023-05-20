@@ -1,14 +1,14 @@
 package com.mjc.school.operation;
 
+import com.mjc.school.controller.dto.AuthorRequestDto;
 import com.mjc.school.controller.impl.AuthorController;
-import com.mjc.school.service.dto.AuthorDto;
-import com.mjc.school.service.exception.ValidatorException;
+import com.mjc.school.operation.validator.InputValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-import static com.mjc.school.service.exception.ServiceError.VALIDATE_INT_VALUE;
+import static com.mjc.school.operation.validator.InputErrorMessage.VALIDATE_INT_VALUE;
 import static com.mjc.school.utils.Constants.*;
 import static com.mjc.school.utils.Operations.*;
 
@@ -34,7 +34,7 @@ public class AuthorOperationExecutor {
         try {
             Long id = validateNumberInput(scanner, AUTHOR_ID);
             System.out.println(authorController.readById(id));
-        } catch (ValidatorException exception) {
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -42,11 +42,12 @@ public class AuthorOperationExecutor {
     public void createAuthor() {
         System.out.println(OPERATION + CREATE_AUTHOR.getOperationDescription());
         System.out.println(ENTER_AUTHOR_NAME);
-        AuthorDto authorDto = new AuthorDto();
+      //  AuthorDto authorDto = new AuthorDto();
+        AuthorRequestDto authorDto = new AuthorRequestDto();
         try {
             authorDto.setName(scanner.next());
             System.out.println(authorController.create(authorDto));
-        } catch (ValidatorException exception) {
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -54,15 +55,16 @@ public class AuthorOperationExecutor {
     public void updateAuthor() {
         System.out.println(OPERATION + UPDATE_AUTHOR.getOperationDescription());
         System.out.println(ENTER_AUTHOR_NAME);
-        AuthorDto authorDto = new AuthorDto();
+     //   AuthorDto authorDto = new AuthorDto();
+        AuthorRequestDto authorRequestDto = new AuthorRequestDto();
         try {
             scanner.nextLine();
             String authorName = scanner.nextLine();
-            authorDto.setName(authorName);
+            authorRequestDto.setName(authorName);
             System.out.println(ENTER_AUTHOR_ID);
-            authorDto.setId(validateNumberInput(scanner, AUTHOR_ID));
-            System.out.println(authorController.update(authorDto));
-        } catch (ValidatorException exception) {
+            authorRequestDto.setId(validateNumberInput(scanner, AUTHOR_ID));
+            System.out.println(authorController.update(authorRequestDto));
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -73,7 +75,7 @@ public class AuthorOperationExecutor {
         try {
             long id = validateNumberInput(scanner, AUTHOR_ID);
             System.out.println(authorController.deleteById(id));
-        } catch (ValidatorException exception) {
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -83,7 +85,7 @@ public class AuthorOperationExecutor {
         try {
             nextLong = scanner.nextLong();
         } catch (RuntimeException exception) {
-            throw new ValidatorException(String.format(VALIDATE_INT_VALUE.getMessage(), param));
+            throw new InputValidatorException(String.format(VALIDATE_INT_VALUE.getMessage(), param));
         }
         return nextLong;
     }

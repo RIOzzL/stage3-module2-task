@@ -1,7 +1,8 @@
 package com.mjc.school.controller.aop;
 
-import com.mjc.school.service.dto.AuthorDto;
-import com.mjc.school.service.validation.validator.AuthorDtoValidator;
+import com.mjc.school.controller.dto.AuthorRequestDto;
+
+import com.mjc.school.controller.validation.validator.AuthorDtoValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -21,7 +22,7 @@ public class AuthorControllerValidationAspect {
 
     }
 
-    @Pointcut("isAuthorController() && @annotation(com.mjc.school.service.validation.restriction.UpdateValid)")
+    @Pointcut("isAuthorController() && @annotation(com.mjc.school.controller.validation.restriction.UpdateValid)")
     public void hasUpdateValidAnnotation() {
 
     }
@@ -29,10 +30,10 @@ public class AuthorControllerValidationAspect {
     @Before("hasUpdateValidAnnotation()")
     public void updateValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        authorDtoValidator.updateValidation((AuthorDto) args[0]);
+        authorDtoValidator.updateValidation((AuthorRequestDto) args[0]);
     }
 
-    @Pointcut("isAuthorController() && @annotation(com.mjc.school.service.validation.restriction.CreateValid)")
+    @Pointcut("isAuthorController() && @annotation(com.mjc.school.controller.validation.restriction.CreateValid)")
     public void hasCreateValidAnnotation() {
 
     }
@@ -40,10 +41,10 @@ public class AuthorControllerValidationAspect {
     @Before("hasCreateValidAnnotation()")
     public void createValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        authorDtoValidator.createValidation((AuthorDto) args[0]);
+        authorDtoValidator.createValidation((AuthorRequestDto) args[0]);
     }
 
-    @Pointcut("isAuthorController() && @args(com.mjc.school.service.validation.restriction.IsEntityExist,..)")
+    @Pointcut("isAuthorController() && @args(com.mjc.school.controller.validation.restriction.IsEntityExist,..)")
     public void hasIsEntityExistAnnotation() {
 
     }

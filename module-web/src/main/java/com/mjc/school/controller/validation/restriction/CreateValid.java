@@ -1,4 +1,4 @@
-package com.mjc.school.service.validation.restriction;
+package com.mjc.school.controller.validation.restriction;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

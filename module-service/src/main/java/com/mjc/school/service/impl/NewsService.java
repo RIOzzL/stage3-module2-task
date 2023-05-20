@@ -62,4 +62,10 @@ public class NewsService implements BaseService<NewsDto, NewsDto, Long> {
     public boolean deleteById(Long id) {
         return newsRepository.deleteById(id);
     }
+
+
+    public boolean isEntityExist(Long id) {
+        Optional<News> news = newsRepository.readById(id);
+        return news.isPresent();
+    }
 }
