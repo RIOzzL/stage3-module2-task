@@ -1,65 +1,64 @@
-package com.mjc.school.utils;
+package com.mjc.school.operation;
 
 import com.mjc.school.controller.impl.NewsController;
+import com.mjc.school.service.dto.NewsDto;
+import com.mjc.school.service.exception.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+import static com.mjc.school.service.exception.ServiceError.VALIDATE_INT_VALUE;
 import static com.mjc.school.utils.Constants.*;
 import static com.mjc.school.utils.Operations.*;
 
 @Component
-public class Menu {
+public class NewsOperationsExecutor {
 
     private final NewsController newsController;
+    private final Scanner scanner;
 
     @Autowired
-    public Menu(NewsController newsController) {
+    public NewsOperationsExecutor(NewsController newsController) {
         this.newsController = newsController;
-    }
-
-
-    public void printMenu() {
-        System.out.println("Enter the number of operation:");
-        for (Operations value : values()) {
-            System.out.println(value.getOperationNumber() + " - " + value.getOperationDescription());
-        }
+        this.scanner = new Scanner(System.in);
     }
 
     public void printAllNews() {
-        System.out.println(newsController.getAllNews());
+        System.out.println(newsController.readAll());
     }
 
-    public void printNewsById(NewsController newsController, Scanner scanner) {
+    public void getNewsById() {
         System.out.println(OPERATION + GET_NEWS_BY_ID.getOperationDescription());
         System.out.println(ENTER_NEWS_ID);
         try {
-            NewsDto newsById = newsController.getNewsById(validateNumberInput(scanner, NEWS_ID));
-            System.out.println(newsById);
+            long id = validateNumberInput(scanner, NEWS_ID);
+            System.out.println(newsController.readById(id));
         } catch (ValidatorException exception) {
             System.out.println(exception.getMessage());
         }
     }
 
-    public void createNews(NewsController newsController, Scanner scanner) {
+    public void createNews() {
         System.out.println(OPERATION + CREATE_NEWS.getOperationDescription());
         System.out.println(ENTER_NEWS_TITLE);
         NewsDto newsDto = new NewsDto();
-        scanner.nextLine();
-        newsDto.setTitle(scanner.nextLine());
-        System.out.println(ENTER_NEWS_CONTENT);
-        newsDto.setContent(scanner.nextLine());
-        System.out.println(ENTER_AUTHOR_ID);
         try {
-            newsDto.setAuthorId(validateNumberInput(scanner, AUTHOR_ID));
-            System.out.println(newsController.createNews(newsDto));
+            String title = scanner.nextLine();
+            newsDto.setTitle(title);
+            System.out.println(ENTER_NEWS_CONTENT);
+            String content = scanner.nextLine();
+            newsDto.setContent(content);
+            System.out.println(ENTER_AUTHOR_ID);
+            long authorId = validateNumberInput(scanner, AUTHOR_ID);
+            newsDto.setAuthorId(authorId);
+            System.out.println(newsController.create(newsDto));
         } catch (ValidatorException exception) {
             System.out.println(exception.getMessage());
         }
     }
 
-    public void updateNews(NewsController newsController, Scanner scanner) {
+    public void updateNews() {
         System.out.println(OPERATION + UPDATE_NEWS.getOperationDescription());
         System.out.println(ENTER_NEWS_ID);
         NewsDto newsDto = new NewsDto();
@@ -72,18 +71,18 @@ public class Menu {
             newsDto.setContent(scanner.nextLine());
             System.out.println(ENTER_AUTHOR_ID);
             newsDto.setAuthorId(validateNumberInput(scanner, AUTHOR_ID));
-            System.out.println(newsController.updateNews(newsDto));
+            System.out.println(newsController.update(newsDto));
         } catch (ValidatorException exception) {
             System.out.println(exception.getMessage());
         }
     }
 
-    public void removeNewsById(NewsController newsController, Scanner scanner) {
+    public void deleteNewById() {
         System.out.println(OPERATION + REMOVE_NEWS_BY_ID.getOperationDescription());
         System.out.println(ENTER_NEWS_ID);
-        long id = validateNumberInput(scanner, NEWS_ID);
         try {
-            System.out.println(newsController.removeNews(id));
+            long id = validateNumberInput(scanner, NEWS_ID);
+            System.out.println(newsController.deleteById(id));
         } catch (ValidatorException exception) {
             System.out.println(exception.getMessage());
         }

@@ -1,12 +1,9 @@
-package com.mjc.school.repository.config;
+package com.mjc.school.controller.config;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
-@ComponentScan("com.mjc.school.repository")
 @EnableAspectJAutoProxy
-public class RepoConfig {
-
+public class ControllerConfiguration {
 }

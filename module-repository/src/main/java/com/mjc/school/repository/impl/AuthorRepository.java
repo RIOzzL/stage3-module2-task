@@ -1,6 +1,7 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.aop.annotation.OnDelete;
 import com.mjc.school.repository.model.entity.Author;
 import com.mjc.school.repository.util.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class AuthorRepository implements BaseRepository<Author, Long> {
     @Override
     public Author create(Author entity) {
         entity.setId(dataSource.increaseAuthorId());
+        entity.setCreateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        entity.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         dataSource.getAuthorList().add(entity);
         return entity;
     }
@@ -48,6 +51,8 @@ public class AuthorRepository implements BaseRepository<Author, Long> {
         return author;
     }
 
+
+    @OnDelete
     @Override
     public boolean deleteById(Long id) {
         Optional<Author> authorToDelete = dataSource.getAuthorList().stream()

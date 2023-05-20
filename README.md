@@ -9,7 +9,7 @@ The recommended timeline for the whole module is 2 weeks.
 #### Business requirements
 
 - Migrate your solution prepared in **Architecture advanced** module to Spring.
-- Support [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations for Author as well.
+- Support [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) command for Author as well.
 
 #### Prerequisites
 
@@ -48,7 +48,7 @@ For example: `author.txt`, `content.txt` which should contain the required data.
 
 #### Operations
 
-The system should expose CRUD operations for News and Author from the __main__ module in the root project:
+The system should expose CRUD command for News and Author from the __main__ module in the root project:
 
 - [x] Create News - fill only title, content, authorId and return created news.
 - [x] Create Author - fill only name and return created author.
@@ -88,7 +88,7 @@ implementing all validations in business logic code or declaratively, e.g. via c
 
 #### Module Main
 
-- Use Command pattern to call operations
+- Use Command pattern to call command
 - Instead of direct call module-web from module-main organize communication between module-web and module-main by custom
   annotations @CommandHandler, @CommandBody and @CommandParam placed in controllers
 
