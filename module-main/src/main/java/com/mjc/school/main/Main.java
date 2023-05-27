@@ -1,4 +1,4 @@
-package com.mjc.school;
+package com.mjc.school.main;
 
 import com.mjc.school.config.AppConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

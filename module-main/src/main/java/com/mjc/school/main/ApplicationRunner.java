@@ -1,4 +1,4 @@
-package com.mjc.school;
+package com.mjc.school.main;
 
 import com.mjc.school.controller.operation.MenuCommands;
 import org.springframework.beans.factory.annotation.Autowired;
