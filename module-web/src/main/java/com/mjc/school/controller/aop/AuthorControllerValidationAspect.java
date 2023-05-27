@@ -1,7 +1,6 @@
 package com.mjc.school.controller.aop;
 
-import com.mjc.school.service.dto.AuthorRequestDto;
-
+import com.mjc.school.service.dto.AuthorDto;
 import com.mjc.school.service.validator.AuthorDtoValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,7 +29,7 @@ public class AuthorControllerValidationAspect {
     @Before("hasUpdateValidAnnotation()")
     public void updateValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        authorDtoValidator.updateValidation((AuthorRequestDto) args[0]);
+        authorDtoValidator.updateValidation((AuthorDto) args[0]);
     }
 
     @Pointcut("isAuthorController() && @annotation(com.mjc.school.service.validator.restriction.CreateValid)")
@@ -41,7 +40,7 @@ public class AuthorControllerValidationAspect {
     @Before("hasCreateValidAnnotation()")
     public void createValidProcessor(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        authorDtoValidator.createValidation((AuthorRequestDto) args[0]);
+        authorDtoValidator.createValidation((AuthorDto) args[0]);
     }
 
     @Pointcut("isAuthorController() && @args(com.mjc.school.service.validator.restriction.IsEntityExist,..)")

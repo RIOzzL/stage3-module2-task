@@ -1,6 +1,6 @@
 package com.mjc.school.controller.operation;
 
-import com.mjc.school.service.dto.AuthorRequestDto;
+import com.mjc.school.service.dto.AuthorDto;
 import com.mjc.school.controller.impl.AuthorController;
 import com.mjc.school.service.exception.InputErrorMessage;
 import com.mjc.school.service.exception.InputValidatorException;
@@ -43,7 +43,7 @@ public class AuthorOperationExecutor {
         System.out.println(Constants.OPERATION + CREATE_AUTHOR.getOperationDescription());
         System.out.println(Constants.ENTER_AUTHOR_NAME);
       //  AuthorDto authorDto = new AuthorDto();
-        AuthorRequestDto authorDto = new AuthorRequestDto();
+        AuthorDto authorDto = new AuthorDto();
         try {
             authorDto.setName(scanner.next());
             System.out.println(authorController.create(authorDto));
@@ -56,7 +56,7 @@ public class AuthorOperationExecutor {
         System.out.println(Constants.OPERATION + UPDATE_AUTHOR.getOperationDescription());
         System.out.println(Constants.ENTER_AUTHOR_NAME);
      //   AuthorDto authorDto = new AuthorDto();
-        AuthorRequestDto authorRequestDto = new AuthorRequestDto();
+        AuthorDto authorRequestDto = new AuthorDto();
         try {
             scanner.nextLine();
             String authorName = scanner.nextLine();

@@ -1,11 +1,11 @@
 package com.mjc.school.controller.operation;
 
-import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.controller.impl.NewsController;
-import com.mjc.school.service.exception.InputErrorMessage;
-import com.mjc.school.service.exception.InputValidatorException;
 import com.mjc.school.controller.utils.Constants;
 import com.mjc.school.controller.utils.Operations;
+import com.mjc.school.service.dto.NewsDto;
+import com.mjc.school.service.exception.InputErrorMessage;
+import com.mjc.school.service.exception.InputValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +41,7 @@ public class NewsOperationsExecutor {
     public void createNews() {
         System.out.println(Constants.OPERATION + Operations.CREATE_NEWS.getOperationDescription());
         System.out.println(Constants.ENTER_NEWS_TITLE);
-        NewsRequestDto newsRequestDto = new NewsRequestDto();
+        NewsDto newsRequestDto = new NewsDto();
         //NewsDto newsDto = new NewsDto();
         try {
             String title = scanner.nextLine();
@@ -77,7 +77,7 @@ public class NewsOperationsExecutor {
         System.out.println(Constants.OPERATION + Operations.UPDATE_NEWS.getOperationDescription());
         System.out.println(Constants.ENTER_NEWS_ID);
         //NewsDto newsDto = new NewsDto();
-        NewsRequestDto newsDto = new NewsRequestDto();
+        NewsDto newsDto = new NewsDto();
         try {
             newsDto.setId(validateNumberInput(scanner, Constants.NEWS_ID));
             System.out.println(Constants.ENTER_NEWS_TITLE);

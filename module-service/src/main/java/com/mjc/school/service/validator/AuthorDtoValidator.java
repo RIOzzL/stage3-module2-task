@@ -1,9 +1,9 @@
 package com.mjc.school.service.validator;
 
-import com.mjc.school.service.dto.AuthorRequestDto;
-import com.mjc.school.service.validator.restriction.Size;
+import com.mjc.school.service.dto.AuthorDto;
 import com.mjc.school.service.exception.ValidatorException;
 import com.mjc.school.service.impl.AuthorService;
+import com.mjc.school.service.validator.restriction.Size;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,12 +12,11 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-
 import static com.mjc.school.service.exception.ServiceError.AUTHOR_ID_DOES_NOT_EXIST;
 import static com.mjc.school.service.exception.ServiceError.VALIDATE_STRING_LENGTH;
 
 @Component
-public class AuthorDtoValidator implements Validator<AuthorRequestDto> {
+public class AuthorDtoValidator implements Validator<AuthorDto> {
 
     private final AuthorService authorService;
 
@@ -27,13 +26,13 @@ public class AuthorDtoValidator implements Validator<AuthorRequestDto> {
     }
 
     @Override
-    public boolean isValid(AuthorRequestDto authorDto) {
+    public boolean isValid(AuthorDto authorDto) {
         return false;
     }
 
     @SneakyThrows
     @Override
-    public boolean updateValidation(AuthorRequestDto authorDto) {
+    public boolean updateValidation(AuthorDto authorDto) {
         isExistValidation(authorDto.getId());
         StringBuilder errorMessage = new StringBuilder();
         List<Field> fieldsWithSizeAnnotation = Arrays.stream(authorDto.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(Size.class)).toList();
@@ -48,7 +47,7 @@ public class AuthorDtoValidator implements Validator<AuthorRequestDto> {
 
     @SneakyThrows
     @Override
-    public boolean createValidation(AuthorRequestDto authorDto) {
+    public boolean createValidation(AuthorDto authorDto) {
         StringBuilder errorMessage = new StringBuilder();
         List<Field> fieldsWithSizeAnnotation = Arrays.stream(authorDto.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(Size.class)).toList();
         if (!fieldsWithSizeAnnotation.isEmpty()) {
@@ -61,7 +60,7 @@ public class AuthorDtoValidator implements Validator<AuthorRequestDto> {
     }
 
     @Override
-    public String sizeAnnotationValidation(AuthorRequestDto authorDto) throws IllegalAccessException {
+    public String sizeAnnotationValidation(AuthorDto authorDto) throws IllegalAccessException {
         List<Field> fieldsWithSizeAnnotation = Arrays.stream(authorDto.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(Size.class)).toList();
         StringBuilder errorMessage = new StringBuilder();
         if (!fieldsWithSizeAnnotation.isEmpty()) {

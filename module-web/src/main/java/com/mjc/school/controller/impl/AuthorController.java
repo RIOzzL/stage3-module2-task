@@ -1,7 +1,6 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.dto.AuthorRequestDto;
 import com.mjc.school.service.validator.restriction.CreateValid;
 import com.mjc.school.service.validator.restriction.IsEntityExist;
 import com.mjc.school.service.validator.restriction.UpdateValid;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class AuthorController implements BaseController<AuthorRequestDto, AuthorRequestDto, Long> {
+public class AuthorController implements BaseController<AuthorDto, AuthorDto, Long> {
 
     private AuthorService authorService;
     private final ModelMapper mapper;
@@ -27,30 +26,30 @@ public class AuthorController implements BaseController<AuthorRequestDto, Author
     }
 
     @Override
-    public List<AuthorRequestDto> readAll() {
+    public List<AuthorDto> readAll() {
         return authorService.readAll().stream()
-                .map(authorDto -> mapper.map(authorDto, AuthorRequestDto.class))
+                .map(authorDto -> mapper.map(authorDto, AuthorDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AuthorRequestDto readById(@IsEntityExist Long id) {
+    public AuthorDto readById(@IsEntityExist Long id) {
         AuthorDto authorDto = authorService.readById(id);
-        return mapper.map(authorDto, AuthorRequestDto.class);
+        return mapper.map(authorDto, AuthorDto.class);
     }
 
     @Override
     @CreateValid
-    public AuthorRequestDto create(AuthorRequestDto createRequest) {
+    public AuthorDto create(AuthorDto createRequest) {
         AuthorDto authorDto = authorService.create(mapper.map(createRequest, AuthorDto.class));
-        return mapper.map(authorDto, AuthorRequestDto.class);
+        return mapper.map(authorDto, AuthorDto.class);
     }
 
     @Override
     @UpdateValid
-    public AuthorRequestDto update(AuthorRequestDto updateRequest) {
+    public AuthorDto update(AuthorDto updateRequest) {
         AuthorDto update = authorService.update(mapper.map(updateRequest, AuthorDto.class));
-        return mapper.map(update, AuthorRequestDto.class);
+        return mapper.map(update, AuthorDto.class);
     }
 
     @Override

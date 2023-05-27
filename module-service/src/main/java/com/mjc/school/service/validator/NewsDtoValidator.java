@@ -1,10 +1,9 @@
 package com.mjc.school.service.validator;
 
-import com.mjc.school.service.dto.NewsRequestDto;
-import com.mjc.school.service.validator.restriction.Size;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.exception.ValidatorException;
 import com.mjc.school.service.impl.NewsService;
+import com.mjc.school.service.validator.restriction.Size;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import java.util.List;
 import static com.mjc.school.service.exception.ServiceError.*;
 
 @Component
-public class NewsDtoValidator implements Validator<NewsRequestDto> {
+public class NewsDtoValidator implements Validator<NewsDto> {
 
     private final NewsService newsService;
     private final AuthorDtoValidator authorDtoValidator;
@@ -29,13 +28,13 @@ public class NewsDtoValidator implements Validator<NewsRequestDto> {
 
 
     @Override
-    public boolean isValid(NewsRequestDto newsDto) {
+    public boolean isValid(NewsDto newsDto) {
         return false;
     }
 
     @SneakyThrows
     @Override
-    public boolean updateValidation(NewsRequestDto newsDto) {
+    public boolean updateValidation(NewsDto newsDto) {
         isExistValidation(newsDto.getId());
         StringBuilder errorMessage = new StringBuilder();
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
@@ -54,7 +53,7 @@ public class NewsDtoValidator implements Validator<NewsRequestDto> {
 
     @SneakyThrows
     @Override
-    public boolean createValidation(NewsRequestDto newsDto) {
+    public boolean createValidation(NewsDto newsDto) {
         StringBuilder errorMessage = new StringBuilder();
 
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
@@ -75,7 +74,7 @@ public class NewsDtoValidator implements Validator<NewsRequestDto> {
     }
 
     @Override
-    public String sizeAnnotationValidation(NewsRequestDto newsDto) throws IllegalAccessException {
+    public String sizeAnnotationValidation(NewsDto newsDto) throws IllegalAccessException {
         Field[] declaredFieldsOfNewsDto = newsDto.getClass().getDeclaredFields();
         List<Field> fieldsWithSizeAnnotation = Arrays.stream(declaredFieldsOfNewsDto).filter(field -> field.isAnnotationPresent(Size.class)).toList();
         StringBuilder errorMessage = new StringBuilder();

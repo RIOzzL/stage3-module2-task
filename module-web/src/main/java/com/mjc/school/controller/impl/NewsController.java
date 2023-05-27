@@ -1,7 +1,6 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.validator.restriction.CreateValid;
 import com.mjc.school.service.validator.restriction.IsEntityExist;
 import com.mjc.school.service.validator.restriction.UpdateValid;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class NewsController implements BaseController<NewsRequestDto, NewsRequestDto, Long> {
+public class NewsController implements BaseController<NewsDto, NewsDto, Long> {
 
     private final NewsService newsService;
     private final ModelMapper mapper;
@@ -28,30 +27,30 @@ public class NewsController implements BaseController<NewsRequestDto, NewsReques
 
 
     @Override
-    public List<NewsRequestDto> readAll() {
+    public List<NewsDto> readAll() {
         return newsService.readAll().stream()
-                .map(newsDto -> mapper.map(newsDto, NewsRequestDto.class))
+                .map(newsDto -> mapper.map(newsDto, NewsDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public NewsRequestDto readById(@IsEntityExist Long id) {
+    public NewsDto readById(@IsEntityExist Long id) {
         NewsDto newsDto = newsService.readById(id);
-        return mapper.map(newsDto, NewsRequestDto.class);
+        return mapper.map(newsDto, NewsDto.class);
     }
 
     @Override
     @CreateValid
-    public NewsRequestDto create(NewsRequestDto createRequest) {
+    public NewsDto create(NewsDto createRequest) {
         NewsDto newsDto = newsService.create(mapper.map(createRequest, NewsDto.class));
-        return mapper.map(newsDto, NewsRequestDto.class);
+        return mapper.map(newsDto, NewsDto.class);
     }
 
     @Override
     @UpdateValid
-    public NewsRequestDto update(NewsRequestDto updateRequest) {
+    public NewsDto update(NewsDto updateRequest) {
         NewsDto update = newsService.update(mapper.map(updateRequest, NewsDto.class));
-        return mapper.map(update, NewsRequestDto.class);
+        return mapper.map(update, NewsDto.class);
     }
 
     @Override
