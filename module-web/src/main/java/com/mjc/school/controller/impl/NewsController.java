@@ -1,10 +1,10 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.controller.dto.NewsRequestDto;
-import com.mjc.school.controller.validation.restriction.CreateValid;
-import com.mjc.school.controller.validation.restriction.IsEntityExist;
-import com.mjc.school.controller.validation.restriction.UpdateValid;
+import com.mjc.school.service.dto.NewsRequestDto;
+import com.mjc.school.service.validator.restriction.CreateValid;
+import com.mjc.school.service.validator.restriction.IsEntityExist;
+import com.mjc.school.service.validator.restriction.UpdateValid;
 import com.mjc.school.service.dto.NewsDto;
 import com.mjc.school.service.impl.NewsService;
 import org.modelmapper.ModelMapper;

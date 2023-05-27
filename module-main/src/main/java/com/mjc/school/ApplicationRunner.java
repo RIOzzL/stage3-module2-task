@@ -1,6 +1,6 @@
 package com.mjc.school;
 
-import com.mjc.school.operation.MenuCommands;
+import com.mjc.school.controller.operation.MenuCommands;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

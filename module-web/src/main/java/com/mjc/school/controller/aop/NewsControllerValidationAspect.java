@@ -1,7 +1,7 @@
 package com.mjc.school.controller.aop;
 
-import com.mjc.school.controller.dto.NewsRequestDto;
-import com.mjc.school.controller.validation.validator.NewsDtoValidator;
+import com.mjc.school.service.dto.NewsRequestDto;
+import com.mjc.school.service.validator.NewsDtoValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -21,7 +21,7 @@ public class NewsControllerValidationAspect {
 
     }
 
-    @Pointcut("isNewsController() && @annotation(com.mjc.school.controller.validation.restriction.UpdateValid)")
+    @Pointcut("isNewsController() && @annotation(com.mjc.school.service.validator.restriction.UpdateValid)")
     public void hasUpdateValidAnnotation() {
 
     }
@@ -32,7 +32,7 @@ public class NewsControllerValidationAspect {
         newsDtoValidator.updateValidation((NewsRequestDto) args[0]);
     }
 
-    @Pointcut("isNewsController() && @annotation(com.mjc.school.controller.validation.restriction.CreateValid)")
+    @Pointcut("isNewsController() && @annotation(com.mjc.school.service.validator.restriction.CreateValid)")
     public void hasCreateValidAnnotation() {
 
     }
@@ -43,7 +43,7 @@ public class NewsControllerValidationAspect {
         newsDtoValidator.createValidation((NewsRequestDto) args[0]);
     }
 
-    @Pointcut("isNewsController() && @args(com.mjc.school.controller.validation.restriction.IsEntityExist,..)")
+    @Pointcut("isNewsController() && @args(com.mjc.school.service.validator.restriction.IsEntityExist,..)")
     public void hasIsEntityExistAnnotation() {
 
     }

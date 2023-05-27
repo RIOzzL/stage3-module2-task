@@ -1,8 +1,8 @@
 package com.mjc.school.controller.aop;
 
-import com.mjc.school.controller.dto.AuthorRequestDto;
+import com.mjc.school.service.dto.AuthorRequestDto;
 
-import com.mjc.school.controller.validation.validator.AuthorDtoValidator;
+import com.mjc.school.service.validator.AuthorDtoValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -22,7 +22,7 @@ public class AuthorControllerValidationAspect {
 
     }
 
-    @Pointcut("isAuthorController() && @annotation(com.mjc.school.controller.validation.restriction.UpdateValid)")
+    @Pointcut("isAuthorController() && @annotation(com.mjc.school.service.validator.restriction.UpdateValid)")
     public void hasUpdateValidAnnotation() {
 
     }
@@ -33,7 +33,7 @@ public class AuthorControllerValidationAspect {
         authorDtoValidator.updateValidation((AuthorRequestDto) args[0]);
     }
 
-    @Pointcut("isAuthorController() && @annotation(com.mjc.school.controller.validation.restriction.CreateValid)")
+    @Pointcut("isAuthorController() && @annotation(com.mjc.school.service.validator.restriction.CreateValid)")
     public void hasCreateValidAnnotation() {
 
     }
@@ -44,7 +44,7 @@ public class AuthorControllerValidationAspect {
         authorDtoValidator.createValidation((AuthorRequestDto) args[0]);
     }
 
-    @Pointcut("isAuthorController() && @args(com.mjc.school.controller.validation.restriction.IsEntityExist,..)")
+    @Pointcut("isAuthorController() && @args(com.mjc.school.service.validator.restriction.IsEntityExist,..)")
     public void hasIsEntityExistAnnotation() {
 
     }
