@@ -68,7 +68,7 @@ public class AuthorService implements BaseService<AuthorDto, AuthorDto, Long> {
         return authorRepository.deleteById(id);
     }
 
-    public boolean existById(Long id){
+    public boolean existById(Long id) {
         return authorRepository.existById(id);
     }
 }
