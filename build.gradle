@@ -28,6 +28,7 @@ subprojects {
         testImplementation "com.tngtech.archunit:archunit:$archUnitVersion"
         compileOnly 'org.projectlombok:lombok:1.18.26'
         annotationProcessor 'org.projectlombok:lombok:1.18.26'
+        implementation "org.mapstruct:mapstruct:1.4.2.Final"
 
     }
     test {
